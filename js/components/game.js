@@ -31,7 +31,7 @@ var Game = React.createClass({
                 </button>
                 <p>{this.props.guesses.guessList}</p>
                 
-                
+                <p>{this.props.guesses.fewestGuesses}</p>
             </div>
         );
 	}
