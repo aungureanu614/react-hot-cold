@@ -49,14 +49,14 @@ var gameReducer = function(state, action) {
         return getNewState();
 
     }else if(action.type === actions.FETCH_FEWEST_GUESSES){
-            newState.fewestGuesses = action.record;
-
-            return newState;
+            return newState.concat({fewestGuesses: action.record})
+        
+         
 
     }else if(action.type === actions.SAVE_FEWEST_GUESSES){
             alert(action.feedback);
-            newState.fewestGuesses = action.record;
-            return newState;
+            return newState.concat({fewestGuesses: action.record})
+           
     }
 
     return state;

@@ -1,4 +1,4 @@
-
+var isomorphicFetch = require('isomorphic-fetch');
 //Input a guess
 var INPUT_GUESS = "INPUT_GUESS";
 var inputGuess = function(guess){
