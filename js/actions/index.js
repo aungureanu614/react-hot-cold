@@ -4,7 +4,8 @@ var INPUT_GUESS = "INPUT_GUESS";
 var inputGuess = function(guess){
 	return{
 		type: INPUT_GUESS,
-		guess: guess
+		guess: guess, 
+
 	};
 };
 
@@ -39,7 +40,7 @@ var fetchRecord = function() {
         var url = 'http://localhost:3000/fewest-guesses';
         return fetch(url).then(function(response) {
             if (response.status < 200 || response.status >= 300) {
-                var error = new Error(response.statusText)
+                var error = new Error(response.statusText);
                 error.response = response;
                 throw error;
             }
@@ -65,29 +66,40 @@ var fetchRecord = function() {
 
 var saveRecord = function(attempt) {
     return function(dispatch) {
-        var url = 'http://localhost:3000/fewest-guesses';
-        return fetch(url).then(function(response) {
+        var url = '//localhost:3000/fewest-guesses';
+        var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+        var body = JSON.stringify({attempt: attempt});
+
+        return fetch(url, {method:"POST", headers:headers, body:body, mode: 'no-cors'}).then(function(response) {
+
             if (response.status < 200 || response.status >= 300) {
                 var error = new Error(response.statusText);
                 error.response = response;
                 throw error;
             }
+            
             return response;
         })
         .then(function(response) {
+            
             return response.json();
         })
         .then(function(data) {
+            
             var record = data.record;
             var feedback = data.feedback;
+
             return dispatch(
                 saveFewestGueses(record, feedback)
             );
         })
         .catch(function(error) {
-            return dispatch(
-                console.log("Error")
-            );
+            
+                console.log(error.response)
+            
         });
     };
 };

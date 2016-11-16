@@ -19,7 +19,8 @@ var gameReducer = function(state, action) {
     var guessList = [];
     var feedback;
     var newState;
-    var fewestGuesses;
+    // var fewestGuesses;
+    
 
     if (action.type === actions.INPUT_GUESS) {
 
@@ -29,7 +30,17 @@ var gameReducer = function(state, action) {
         if (state.number == action.guess) {
             newState.guessList.push(action.guess);
             newState.feedback = "You won!";
-           
+
+            actions.fetchRecord();
+            if(newState.fewestGuesses === null){
+                newState.fewestGuesses = newState.guessList.length;
+                
+            }else if(newState.fewestGuesses > newState.guessList.length){
+                newState.fewestGuesses = newState.guessList.length;
+            }
+            //call actions.fetchRecord
+            //compare fewestGuesses to newState.guessList.length, check if fewestGuesses is null first
+            //if fewestGuesses < newState.guessList.length pass to SaveFewestGuesses
 
         } else if (state.number > action.guess) {
             newState.guessList.push(action.guess);
@@ -45,22 +56,26 @@ var gameReducer = function(state, action) {
         return newState;
 
     }else if (action.type === actions.NEW_GAME) {
-        
-        return getNewState();
+        newState = Object.assign({}, getNewState(), {fewestGuesses: state.fewestGuesses});
+        // return getNewState();
+        return newState;
 
     }else if(action.type === actions.FETCH_FEWEST_GUESSES){
-            return newState.concat({fewestGuesses: action.record})
+            return newState.concat({fewestGuesses: action.record});
         
          
 
     }else if(action.type === actions.SAVE_FEWEST_GUESSES){
             alert(action.feedback);
-            return newState.concat({fewestGuesses: action.record})
+            return newState.concat({fewestGuesses: action.record});
            
     }
 
+    
     return state;
 
 };
+
+
 
 exports.gameReducer = gameReducer;
