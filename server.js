@@ -3,9 +3,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
-app.set('port', 3000);
+app.set('port', 8080);
 
-app.use(express.static('public'));
+app.use(express.static('build'));
 app.use(bodyParser.json());
 
 var fewestGuesses = null;
@@ -33,7 +33,7 @@ app.post('/fewest-guesses', function(req, res) {
       
     };
 
-    res.status(201).header("Access-Control-Allow-Origin", "*").json(result);
+    res.status(201).json(result);
 
 });
 

@@ -37,7 +37,7 @@ var saveFewestGueses = function(record, feedback){
 
 var fetchRecord = function() {
     return function(dispatch) {
-        var url = 'http://localhost:3000/fewest-guesses';
+        var url = 'http://localhost:8080/fewest-guesses';
         return fetch(url).then(function(response) {
             if (response.status < 200 || response.status >= 300) {
                 var error = new Error(response.statusText);
@@ -66,14 +66,15 @@ var fetchRecord = function() {
 
 var saveRecord = function(attempt) {
     return function(dispatch) {
-        var url = '//localhost:3000/fewest-guesses';
+        var url = '//localhost:8080/fewest-guesses';
         var headers = {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": '*'
         }
         var body = JSON.stringify({attempt: attempt});
 
-        return fetch(url, {method:"POST", headers:headers, body:body, mode: 'no-cors'}).then(function(response) {
+        return fetch(url, {method:"POST", headers:headers, body:body, mode: 'cors'}).then(function(response) {
 
             if (response.status < 200 || response.status >= 300) {
                 var error = new Error(response.statusText);
